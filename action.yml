@@ -1,0 +1,34 @@
+name: ReturnNames
+description: 'Take info from repo and make useable names from it.'
+inputs:
+  GithubRepo:
+    description: 'github.repository'
+    required: false
+    default: "${{ github.repository }}"   
+  
+outputs:
+  RepoName: 
+    description: 'Name of the Repo'
+    value: "${{ steps.RepoName.Outputs._1 }}"
+  SolutionName: 
+    description: 'Name of the Solution'
+    value:  "${{ steps.RepoName.Outputs._1 }}.sln"
+  PathToPackage: 
+    description: 'Path to the nupkg'
+    value:  "${{ steps.RepoName.Outputs._1 }}/bin/${{ env.BUILD_CONFIG }}/${{ steps.RepoName.Outputs._1 }}.${{ steps.get-version.outputs.version }}.nupkg"
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v3
+  - name: GetSplit - Repository
+    uses: rishabhgupta/split-by@v1
+    id: RepoName
+    with:
+        string: "${{ github.repository }}"
+        split-by: "/"      
+
+  - name : get version from project
+    uses: kzrnm/get-net-sdk-project-versions-action@v1
+    id: get-version
+    with:
+      proj-path: "${{ steps.RepoName.Outputs._1 }}/${{ steps.RepoName.Outputs._1 }}.csproj"

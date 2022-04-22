@@ -1,10 +1,5 @@
 name: ReturnNames
 description: 'Take info from repo and make useable names from it.'
-inputs:
-  GithubRepo:
-    description: 'github.repository'
-    required: false
-    default: "${{ github.repository }}"   
   
 outputs:
   RepoName: 
@@ -20,6 +15,7 @@ outputs:
 runs:
   using: "composite"
   steps:
+  
   - uses: actions/checkout@v3
 
   - name: Find all JS files and fail if found
@@ -27,7 +23,6 @@ runs:
     uses: DovnarAlexander/github-action-file-detection@master
     with:
       wildcard: '*.csproj'
-  
   
   - name: GetSplit - Repository
     uses: rishabhgupta/split-by@v1

@@ -9,13 +9,14 @@ inputs:
 outputs:
   RepoName: 
     description: 'Name of the Repo'
-    value: "${{ steps.RepoName.Outputs._1 }}"
+    value: "${{ steps.RepoName.outputs._1 }}"
   SolutionName: 
     description: 'Name of the Solution'
-    value:  "${{ steps.RepoName.Outputs._1 }}.sln"
+    value:  "${{ steps.RepoName.outputs._1 }}.sln"
   PathToPackage: 
     description: 'Path to the nupkg'
-    value:  "${{ steps.RepoName.Outputs._1 }}/bin/${{ env.BUILD_CONFIG }}/${{ steps.RepoName.Outputs._1 }}.${{ steps.get-version.outputs.version }}.nupkg"
+    #value:  "${{ steps.RepoName.outputs._1 }}/bin/${{ env.BUILD_CONFIG }}/${{ steps.RepoName.Outputs._1 }}.${{ steps.get-version.outputs.version }}.nupkg"
+    value:  "${{ steps.RepoName.outputs._1 }}/Path"
 runs:
   using: "composite"
   steps:

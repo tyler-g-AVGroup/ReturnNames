@@ -35,11 +35,6 @@ runs:
         string: "${{ github.repository }}"
         split-by: "/"
 
-  - name: Find Files
-    uses: DovnarAlexander/github-action-file-detection@master
-    with:
-      wildcard: '**.csproj'
-
   - name : get version from project
     uses: kzrnm/get-net-sdk-project-versions-action@v1
     id: get-version

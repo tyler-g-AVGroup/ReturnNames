@@ -5,15 +5,19 @@ outputs:
   RepoName: 
     description: 'Name of the Repo'
     value: "${{ steps.RepoName.outputs._1 }}"
-  SolutionName: 
-    description: 'Name of the Solution'
-    value:  "${{ steps.RepoName.outputs._1 }}.sln"
-  PathToPackage: 
-    description: 'Path to the nupkg'
-    value:  "${{ steps.RepoName.outputs._1 }}/Path"
   Owner: 
     description: 'User or Org from Repo'
     value:  "${{ steps.RepoName.outputs._0 }}"
+  SolutionName: 
+    description: 'Name of the Solution'
+    value:  "${{ steps.Find-sln.outputs.found }}"
+#  PathToPackage: 
+#    description: 'Path to the nupkg'
+#    value:  "${{ steps.RepoName.outputs._1 }}/Path"
+  Version:
+    description:
+    value: "${{ steps.get-version.outputs.version }}"
+
     
 runs:
   using: "composite"
@@ -21,12 +25,12 @@ runs:
   
   - uses: actions/checkout@v3
 
-  - name: Find all JS files and fail if found
-    id: finder
-    uses: DovnarAlexander/github-action-file-detection@master
-    with:
-      wildcard: '*.csproj'
-  
+########################################################
+#
+#           Make RepoName and Owner outputs
+#
+########################################################
+
   - name: GetSplit - Repository
     uses: rishabhgupta/split-by@v1
     id: RepoName
@@ -34,8 +38,33 @@ runs:
         string: "${{ github.repository }}"
         split-by: "/"
 
+
+########################################################
+#
+#           Find .csproj file, and version number
+#
+########################################################
+
+  - name: Find all JS files and fail if found
+    id: Find-csproj
+    uses: DovnarAlexander/github-action-file-detection@master
+    with:
+      wildcard: '*.csproj'
+
   - name : get version from project
     uses: kzrnm/get-net-sdk-project-versions-action@v1
     id: get-version
     with:
-      proj-path: "${{ steps.finder.Outputs.found }}"
+      proj-path: "${{ steps.Find-csproj.outputs.found }}"
+
+########################################################
+#
+#           Find .sln file
+#
+########################################################
+
+  - name: Find all JS files and fail if found
+    id: Find-sln
+    uses: DovnarAlexander/github-action-file-detection@master
+    with:
+      wildcard: '*.sln'

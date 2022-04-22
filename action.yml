@@ -22,10 +22,10 @@ runs:
   - uses: actions/checkout@v3
 
   - name: Find all JS files and fail if found
-  id: finder
-  uses: DovnarAlexander/github-action-file-detection@master
-  with:
-    wildcard: '*.csproj'
+    id: finder
+    uses: DovnarAlexander/github-action-file-detection@master
+    with:
+      wildcard: '*.csproj'
   
   
   - name: GetSplit - Repository

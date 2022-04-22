@@ -45,7 +45,7 @@ runs:
 #
 ########################################################
 
-  - name: Find all JS files and fail if found
+  - name: Find csproj
     id: Find-csproj
     uses: DovnarAlexander/github-action-file-detection@master
     with:
@@ -63,7 +63,7 @@ runs:
 #
 ########################################################
 
-  - name: Find all JS files and fail if found
+  - name: Find sln
     id: Find-sln
     uses: DovnarAlexander/github-action-file-detection@master
     with:

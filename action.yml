@@ -20,15 +20,28 @@ runs:
   using: "composite"
   steps:
   - uses: actions/checkout@v3
+
+  - name: Find all JS files and fail if found
+  id: finder
+  uses: DovnarAlexander/github-action-file-detection@master
+  with:
+    wildcard: '*.csproj'
+  
+  
   - name: GetSplit - Repository
     uses: rishabhgupta/split-by@v1
     id: RepoName
     with:
         string: "${{ github.repository }}"
-        split-by: "/"      
+        split-by: "/"
+
+  - name: Find Files
+    uses: DovnarAlexander/github-action-file-detection@master
+    with:
+      wildcard: '**.csproj'
 
   - name : get version from project
     uses: kzrnm/get-net-sdk-project-versions-action@v1
     id: get-version
     with:
-      proj-path: "**.csproj"
+      proj-path: "${{ steps.finder.Outputs.found }}"

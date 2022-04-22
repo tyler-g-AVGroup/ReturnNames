@@ -31,4 +31,4 @@ runs:
     uses: kzrnm/get-net-sdk-project-versions-action@v1
     id: get-version
     with:
-      proj-path: "${{ steps.RepoName.Outputs._1 }}/${{ steps.RepoName.Outputs._1 }}.csproj"
+      proj-path: "**.csproj"
